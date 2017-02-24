@@ -18,6 +18,13 @@
 #   - to not include a 300MB redundant CUDA/CuDNN runtimes
 #   - ...
 #
+# Also, if we need, we can tune the image to point to our conda channel
+# as highest priority (although I would keep that in the recipes). Another
+# easy enhancement would be to install conda packages we always need
+# (like numpy), which would save us some building time for as long as
+# the package is not updated upstream; package pinning must be done,
+# if needed, in the recipes themselves.
+#
 # Usage
 # -----
 #
@@ -25,7 +32,7 @@
 # Note that the docker command cannot be tweaked at the moment and some stage
 # it could be desirable to be able to use nvidia-docker, specially for the
 # kinds of neon, that is picky picky at building GPU related artifacts if no
-# GPU is present. Create a PR should be easy if we need it.
+# GPU is present. Create a PR to conda-smithy should be easy if we need it.
 #
 # Notes
 # -----
@@ -41,6 +48,7 @@
 FROM nvidia/cuda:8.0-cudnn5-devel-centos6
 
 MAINTAINER conda-forge <conda-forge@googlegroups.com>
+MAINTAINER Santi Villalba <sdvillal@gmail.com>
 
 # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
