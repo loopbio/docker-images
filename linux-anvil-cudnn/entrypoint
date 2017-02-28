@@ -3,5 +3,46 @@
 # Source everything that needs to be.
 . /opt/docker/bin/entrypoint_source
 
+#
+# This saves us a few headaches with dynamic libs
+# (e.g. when running caffe tests, remove this and they
+# will happily segfault and send you on an impossible
+# fixing quest).
+# Wrong interaction with the conda env?
+#
+/sbin/ldconfig
+#
+# Alternatively, it could be added to each recipe needing it.
+# Safer here.
+#
+# Historical notes:
+#
+#   - Adding it to the Dockerfile does not help,
+#     it needs to happen after sourcing conda.
+#
+#   - Although it costed me a good day of banging
+#     my head against the wall, I was lucky to find
+#     what was the problem. I did it by chance.
+#     At the beginning the recipe was working because
+#     I was installing some system packages that were
+#     triggering "ldconfig". Of course, at the time I did
+#     not know about my good luck. But I knew it worked with
+#     all tests passing shiningly. After we needed no more to
+#     install these packages, because we did not depend on our
+#     gtk2 opencv anymore, the tests started to segfault
+#     (also in other packages, like aeon).
+#     Only after having ruled out problems with drivers,
+#     cudas, nvidia-dockers, bad interactions with
+#     libraries like opencv, disabling caffe compilation
+#     options and what not, I turned my attention
+#     to these systems packages (last thing I considered
+#     on a long and painful git bisect session); and only after
+#     inspecting the source of these packages (libXinerama),
+#     I figured out that it was not whatever they were installing,
+#     but the ldconfig command they were triggering, that was fixing
+#     caffe testing errors.
+#
+
+
 # Run whatever the user wants.
 exec "$@"
