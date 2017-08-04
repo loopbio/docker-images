@@ -45,7 +45,7 @@
 #   https://gitlab.com/nvidia/cuda/blob/centos6/8.0/devel/cudnn5/Dockerfile
 #
 
-FROM nvidia/cuda:8.0-cudnn5-devel-centos6
+FROM nvidia/cuda:8.0-cudnn6-devel-centos6
 
 MAINTAINER conda-forge <conda-forge@googlegroups.com>
 MAINTAINER Santi Villalba <sdvillal@gmail.com>
